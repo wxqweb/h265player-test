@@ -189,7 +189,8 @@ export default class StreamController extends BaseClass {
       console.error('onRead reseting')
       return
     }
-
+    
+    this.logger.warn('onRead', 'get stream data outer', this.currentIndex, data)
     if (data && data.arrayBuffer && data.no === this.currentIndex) {
       this.retryTime = 0
 
@@ -202,7 +203,7 @@ export default class StreamController extends BaseClass {
       }
       this.events.emit(Events.DemuxStartDemux, data)
     } else {
-      this.logger.error('onRead', 'load ts failred', 'tsno:', this.currentIndex)
+      this.logger.error('onRead', 'load ts failred', 'tsno:', this.currentIndex, data)
     }
   }
 }

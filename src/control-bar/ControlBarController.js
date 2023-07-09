@@ -133,6 +133,7 @@ class ControlBarController extends BaseController {
       this.events.emit(Events.ControlBarPlay, this)
     })
     this.events.on(Events.PlayerPause, () => {
+      this.waitingBar.hideWaiting()
       this.events.emit(Events.ControlBarPause, this)
     })
     this.events.on(Events.PlayerPlaying, () => {

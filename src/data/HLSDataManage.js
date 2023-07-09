@@ -98,13 +98,15 @@ class HLSDataManage extends BaseClass {
       buffer = this.bufferPool[idx]
       this.events.emit(Events.DataManageSeek, buffer, time)
     } else {
-      this.removeBufferPool(this.bufferPool.length)
+      this.removeBufferPool(this.bufferPool.length);
       this.loadSegmentByTime(time, 'seek')
     }
+
   }
 
 
   loadSegmentByTime(time, type) {
+    this.logger.info('loadSegmentByTime', 'time init', 'time:', time, 'type:', type)
     if (isNaN(time)) {
       return
     }
@@ -157,7 +159,7 @@ class HLSDataManage extends BaseClass {
     }
     this.readBufferNo = no
     callback = callback || function(buffer) {
-      this.events.emit(Events.DataManageRead, buffer)
+      buffer && this.events.emit(Events.DataManageRead, buffer)
     }
     this.getBlobByNo(no, callback)
   }

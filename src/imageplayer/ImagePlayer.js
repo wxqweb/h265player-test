@@ -101,6 +101,11 @@ export default class ImagePlayer extends BaseClass {
       this.status = 'wait'
       this.ready = false
       this.events.emit(Events.ImagePlayerWait, 'image', 'this')
+      // setTimeout(()=> {
+      //   this.events.emit(Events.PlayerOnPause, this);
+      //   this.events.emit(Events.PlayerOnPlay, this);
+      // }, 1000);
+      // PlayerOnPlay
       return false
     }
   }

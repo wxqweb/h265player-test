@@ -32,6 +32,25 @@
   <br clear="all">
   <br>
   <script>
+    // https://lf3-record-tos.bytefcdn.com/obj/fcdn-dy/0784073508702545471/push-rtmp-hs-f5.douyincdn.com_stage_stream-113334995111641770_1688823036_1688828468_record.m3u8?psm=ad.platform.live_console
+
+    //播放器容器
+    let el = document.querySelector('.play-container')
+    //播放器参数
+    let options = {
+        // 视频播放地址
+        // sourceURL: 'https://lf3-record-tos.bytefcdn.com/obj/fcdn-dy/0784073508702545471/push-rtmp-hs-f5.douyincdn.com_stage_stream-113334995111641770_1688823036_1688828468_record.m3u8?psm=ad.platform.live_console',
+        sourceURL: "https://lr3.douyincdn.com/record/stage/stream-113325687511187538/auto_merge_2023-07-07-06-59-13_2023-07-07-08-32-06.m3u8?psm=ad.platform.live_console",
+        type: 'HLS',
+        // wasm库地址
+        libPath: 'http://localhost:9000/dist/lib/',
+        autoPlay: false,
+        maxBufferLength: 1000*30,
+        defaultRate: {"url":"http://localhost/20190902/f0/db/ee545466ced38973a9d60fe7f24ed409.m3u8","id":51,"name":"高清","value":"600"},
+    }
+    let player = new GoldPlay(el, options)
+  </script>
+  <!-- <script>
     (function (win, doc) {
       const Config = {
         get basePath() {
@@ -70,7 +89,7 @@
       }
       // player.destroy()
     })(window, document)
-  </script>
+  </script> -->
 </body>
 
 </html>

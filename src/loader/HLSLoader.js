@@ -112,13 +112,27 @@ class HLSLoader extends BaseLoader {
   }
 
   getBaseUrl(file) {
-    const sourceURL = this.options.sourceURL
-    const isAbsolute = file.indexOf('//') > -1
+    // const sourceURL = this.options.sourceURL
+    // const isAbsolute = file.indexOf('//') > -1
+    // if (!isAbsolute) {
+    //   const lastSlash = sourceURL.lastIndexOf('/')
+    //   return sourceURL.substr(0, lastSlash + 1)
+    // }
+    // return ''
+    // 用于支持多级的目录
+    const sourceURL = this.options.sourceURL;
+    const isAbsolute = file.indexOf("//") > -1;
     if (!isAbsolute) {
-      const lastSlash = sourceURL.lastIndexOf('/')
-      return sourceURL.substr(0, lastSlash + 1)
+      const isAbsoultStart = file.indexOf("/") == 0;
+      if (isAbsoultStart) {
+        //sourceURL.replace(/^https?://[^/]*/,'$1')
+        return sourceURL.match(/^https?:\/\/[^\/]*/g)[0];
+      } else {
+        const lastSlash = sourceURL.lastIndexOf("/");
+        return sourceURL.substr(0, lastSlash + 1);
+      }
     }
-    return ''
+    return "";
   }
 
   checkLoadCondition(segment) {
@@ -147,7 +161,7 @@ class HLSLoader extends BaseLoader {
     }
 
     // only single load process
-    if(this.isNotFree() && type !== 'seek' && type !== 'start') {
+    if(this.isNotFree('HLS') && type !== 'seek' && type !== 'start') {
       this.logger.warn('loadFile', 'is loading', 'segment:', segment, 'type:', type)
       return
     }
@@ -181,8 +195,8 @@ class HLSLoader extends BaseLoader {
       })
     }
 
-    this.state = state.LOADING
-    this.events.emit(Events.LoaderLoading, segment, type, time)
+    // this.state = state.LOADING
+    // this.events.emit(Events.LoaderLoading, segment, type, time)
     this.httpWorker.onmessage = (event) => {
       this.state = state.DONE
       const data = event.data
@@ -209,7 +223,10 @@ class HLSLoader extends BaseLoader {
         this.state = state.IDLE
         this.events.emit(Events.LoaderLoaded, data, segment, type, time)
       } else {
-        this.logger.warn('loadFile', 'is not ts file or the segment\'no is not equal.', 'fileType:', data.fileType, 'data:', data)
+        this.logger.warn('loadFile', 'is not ts file or the segment\'no is not equal.', 'fileType:', data.fileType, 'data:', data);
+        // this.events.emit(Events.PlayerOnPause, this);
+        // this.events.emit(Events.PlayerOnPlay, this);
+
       }
     }
     _send()
